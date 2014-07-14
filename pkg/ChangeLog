@@ -1,0 +1,13 @@
+ChangeLog for package synchrony
+
+Changes in synchrony version 0.2.2 (2014-03-06)
+fixed: 
+    - vario.fit handles NAs in vario objects more gracefully
+    - print function for phase.sync object only prints the first few entries
+
+Changes in synchrony version 0.2.1 (2014-01-26)
+fixed: 
+    - The print function for kendall.w now reports the p-value obtained via randomizations.
+added: 
+    - phase.sync and peaks now accept vectors, which are internally converted to Nx2 matrices.
+

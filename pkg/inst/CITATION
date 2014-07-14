@@ -1,0 +1,16 @@
+bibentry("Article",
+         key          = "gouhier_guichard_14",
+         title        = "Synchrony: quantifying variability in space and time",
+         author       = c(person("Gouhier", "T.C"), person("Guichard", "F.")),
+         address      = "tarik.gouhier@gmail.com",
+         year         = "2014",
+         volume       = "5",
+         pages        = "524--533",
+         journal      = "Methods in Ecology and Evolution",
+         url          = "http://synchrony.r-forge.r-project.org",
+	       note         = paste("R package version", meta$Version),
+         
+         textVersion = "Gouhier, T.C., and F. Guichard. 2014. Synchrony: quantifying variability in space and time. Methods in Ecology and Evolution 5:524-533",
+         mheader = "To cite in publications use:",	 
+      	 mfooter = "Please cite this package if you use it for data analysis."
+	)

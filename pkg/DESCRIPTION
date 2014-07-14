@@ -1,0 +1,11 @@
+Package: synchrony
+Type: Package
+Title: Methods for computing spatial, temporal, and spatiotemporal statistics
+Version: 0.2.3
+Date: 2014-07-14
+Author: Tarik C. Gouhier
+Maintainer: Tarik C. Gouhier <tarik.gouhier@gmail.com>
+Description: Methods for computing spatial, temporal, and spatiotemporal statistics including: empirical univariate, bivariate and multivariate variograms; fitting variogram models; phase locking and synchrony analysis; generating autocorrelated and cross-correlated matrices.
+License: GPL (>=2)
+URL: http://synchrony.r-forge.r-project.org
+LazyLoad: yes

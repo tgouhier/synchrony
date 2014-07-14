@@ -1,0 +1,30 @@
+# Export functions
+export (coord2dist,
+	correlated.matrix,
+	find.minmax,
+	kendall.w,
+	peaks,
+	phase.partnered,
+	phase.sync,
+	meancorr,
+	community.sync,
+	surrogate.ts,
+	latlon2dist,
+	vario.fit,
+	vario,
+	vario.func,
+	plot.synchrony,
+	plot.vario,
+	plot.variofit)
+
+# S3 method for plotting
+S3method(plot, vario)
+S3method(print, vario)
+S3method(plot, variofit)
+S3method(print, variofit)
+S3method(plot, synchrony)
+S3method(print, synchrony)
+S3method(print, phase)
+S3method(print, cormat)
+S3method(print, minmax)
+S3method(print, phasepart)
