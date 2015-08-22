@@ -3,7 +3,7 @@
 \alias{synchrony}
 \docType{package}
 \title{
-Methods for computing spatial, temporal, and spatiotemporal statistics
+Methods for Computing Spatial, Temporal, and Spatiotemporal Statistics
 }
 \description{
 Methods for computing spatial, temporal, and spatiotemporal statistics including:
@@ -15,8 +15,8 @@ generating autocorrelated and cross-correlated matrices.
 \tabular{ll}{
 Package: \tab synchrony\cr
 Type: \tab Package\cr
-Version: \tab 0.2.2\cr
-Date: \tab 2014-03-06\cr
+Version: \tab 0.2.4\cr
+Date: \tab 2015-08-22\cr
 License: \tab GPL (>=2)\cr
 URL: \tab http://synchrony.r-forge.r-project.org\cr
 LazyLoad: \tab yes\cr

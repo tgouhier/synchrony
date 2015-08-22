@@ -179,7 +179,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
   }
   opt=vario.stats(data, vario.mod, type, names, success)
   converge=ifelse(opt$convergence==0, TRUE, FALSE)
-  results=list(vario=vario, bins=bins, AIC=opt$AIC, rmse=opt$rmse, 
+  results=list(vario=data$vario, bins=data$bins, AIC=opt$AIC, rmse=opt$rmse, 
                params=opt$params, fit=opt$fit, model=type, nls.success=opt$nls.success,
                convergence=converge)
   class(results)="variofit"

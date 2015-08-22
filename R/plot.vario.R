@@ -4,6 +4,7 @@ plot.vario <-
             pch=21, col.sig="black", col.nonsig="black", bg.sig="black", 
             bg.nonsig="white", alpha=0.05, ...) {
     
+    locs=which(!is.na(x$vario))
     xtypes=c("mean.bin.dist", "bins")
     xtype=match.arg(tolower(xtype), xtypes)
     
@@ -41,10 +42,10 @@ plot.vario <-
       ylim=yrange
     
     if (ci) {
-      plot(xvals, x$vario, xlab=xlab, ylab=ylab, ylim=ylim, col=col.sig, type="n", ...)
-      ci.vals=apply(x$rands, 2, quantile, c(alpha/2, 1-alpha/2))
-      polygon (c(xvals, rev(xvals)), 
-               c(ci.vals[1,], rev(ci.vals[2,])), col="lightgray")
+      plot(xvals[locs], x$vario[locs], xlab=xlab, ylab=ylab, ylim=ylim, col=col.sig, type="n", ...)
+      ci.vals=apply(x$rands, 2, quantile, c(alpha/2, 1-alpha/2), na.rm=TRUE)
+      polygon (c(xvals[locs], rev(xvals[locs])), 
+               c(ci.vals[1, locs], rev(ci.vals[2, locs])), col="lightgray")
       points(xvals, x$vario, xlab=xlab, ylab=ylab, ylim=ylim, col=col.sig, ...)
     }
     else {

@@ -15,6 +15,11 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
   mults=c("none", "holm", "hochberg", "bonferroni")
   mult.test.corr=match.arg(tolower(mult.test.corr), mults)
   
+  # Convert to matrix
+  data=as.matrix(data)
+  if (!is.null(data2))
+    data2=as.matrix(data2)
+  
   n.cols=NCOL(data)
   if (n.cols > 3)
     is.multivar=TRUE
@@ -35,12 +40,25 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
     
     if (is.null(data2))
       data2=data
-    for (i in 1:nrands) {
+    for (i in 1:nrands) {    
       s=sample(results$grpdata)
       
       if (is.multivar) {
         vals=results$vals
+        # Faster, implicit randomization (shuffle locations of individual correlations)
         rands[i,]=tapply(vals, s, FUN=mean, na.rm=TRUE)
+        # Slower, explicit randomization (shuffle both datasets and recompute correlations):      
+        #         rands[i,]=vario.aux (n.bins=n.bins, size.bins=size.bins, extent=extent, 
+        #                        data=cbind(data[, 1:2], 
+        #                                   matrix(sample(data[,3:NCOL(data)]), 
+        #                                          nrow=NROW(data), 
+        #                                          ncol=NCOL(data)-2)),
+        #                        data2=cbind(data2[, 1:2], 
+        #                                    matrix(sample(data2[,3:NCOL(data2)]), 
+        #                                           nrow=NROW(data2), 
+        #                                           ncol=NCOL(data2)-2)),
+        #                        is.latlon=is.latlon, is.centered=is.centered, 
+        #                        is.multivar=is.multivar, type=type)$vario
       }
       else {
         for (j in 1:(length(results$bins))) {        
@@ -94,8 +112,8 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
   return(results)
 }
 
-vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL, is.latlon=TRUE, 
-                       is.centered=FALSE, is.multivar=FALSE,
+vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL, 
+                       is.latlon=TRUE, is.centered=FALSE, is.multivar=FALSE,
                        type=c("semivar", "cov", "pearson", "spearman", "kendall", 
                               "moran", "geary")) {
   
@@ -130,15 +148,18 @@ vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL, 
       if (type=="cov")
         vals=cov(t(data[, 3:n.cols]))
       else {
-        vals=suppressWarnings(cor(t(data[, 3:n.cols]), method=type, use = "pairwise.complete.obs"))
+        vals=suppressWarnings(cor(t(data[, 3:n.cols]), method=type, 
+                                  use = "pairwise.complete.obs"))
       }
       vals=vals[lower.tri(vals)]
     }
     else {
       if (type=="cov")
-        vals=suppressWarnings(cov(x=t(data[, 3:n.cols]), y=t(data2[, 3:n.cols]), use = "pairwise.complete.obs"))
+        vals=suppressWarnings(cov(x=t(data[, 3:n.cols]), y=t(data2[, 3:n.cols]), 
+                                  use = "pairwise.complete.obs"))
       else
-        vals=suppressWarnings(cor(x=t(data[, 3:n.cols]), y=t(data2[, 3:n.cols]), method=type, use = "pairwise.complete.obs"))
+        vals=suppressWarnings(cor(x=t(data[, 3:n.cols]), y=t(data2[, 3:n.cols]), 
+                                  method=type, use = "pairwise.complete.obs"))
       # vals=vals[row(vals)!=col(vals)]
       vals=vals[lower.tri(vals)]
     }

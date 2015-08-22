@@ -20,7 +20,8 @@ print.synchrony <- function (x, digits=max(3L, getOption("digits") - 3L), ...) {
     cat(format(x$obs, digits=digits))
         
     if (!is.null(x$pval)) {
-      tail=ifelse(x$alternative=="two.tailed", "two-tailed test", paste0("one-tailed test [", x$alternative, "]"))
+      tail=ifelse(x$alternative=="two.tailed", "two-tailed test", 
+                  paste0("one-tailed test [", x$alternative, "]"))
       cat(paste("\nMean correlation p-value (", tail, "): ", sep=""))
       cat(format(x$pval, digits=digits))
     }
