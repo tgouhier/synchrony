@@ -105,3 +105,7 @@ Oikos 116:1726-1736.
 Zar, J. H. 1999.
 **Biostatistical Analysis, Fourth edition.**
 Prentice-Hall, Inc., Upper Saddle River, NJ.
+
+## Other links
+ * Paper from Tarik C. Gouhier and Frederic Guichard: http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12188/pdf
+ * Old r-forge website: http://synchrony.r-forge.r-project.org/
