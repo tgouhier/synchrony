@@ -1,3 +1,4 @@
+#' @export
 print.variofit <- function (x, digits=max(3L, getOption("digits") - 3L), ...) {
   switch(x$model,
          spherical={name='Spherical model'},
@@ -8,12 +9,12 @@ print.variofit <- function (x, digits=max(3L, getOption("digits") - 3L), ...) {
          sill={name='Sill model'},
          periodic={name='Periodic model'},
          hole={name='Hole model'})
-           
+
   if (x$convergence==TRUE)
     conv="algorithm converged"
   else
     conv="algorithm failed to converge"
-  
+
   cat(name)
   cat("\nRoot Mean Square Error (RMSE): ")
   cat(format(x$rmse, digits=digits))
@@ -26,5 +27,5 @@ print.variofit <- function (x, digits=max(3L, getOption("digits") - 3L), ...) {
   cat("\nObserved values:\n")
   print(x$vario, digits=digits)
   cat("\nPredicted values:\n")
-  print(x$fit, digits=digits)  
+  print(x$fit, digits=digits)
 }

@@ -1,19 +1,20 @@
+#' @export
 surrogate.ts <- function (ts, distr.ts=NULL, trans.ts=NULL, nbreaks=10) {
   if (NCOL(ts)==1) {
     ts=cbind(1:NROW(ts), ts)
   }
   surr.ts=numeric(length=NROW(ts))*NA
-  if (is.null(trans.ts)) {  
+  if (is.null(trans.ts)) {
     ## Determine transition probabilities
-    distr.ts <- cut(ts[,2], quantile(ts[,2], seq(0, 1, len = (nbreaks+1))), 
+    distr.ts <- cut(ts[,2], quantile(ts[,2], seq(0, 1, len = (nbreaks+1))),
                include.lowest = TRUE, labels=FALSE)
     trans.ts=matrix(nrow=nbreaks, ncol=nbreaks, 0)
     for (i in 1:(NROW(ts)-1)) {
-      trans.ts[distr.ts[i], distr.ts[i+1]]=trans.ts[distr.ts[i], distr.ts[i+1]]+1      
+      trans.ts[distr.ts[i], distr.ts[i+1]]=trans.ts[distr.ts[i], distr.ts[i+1]]+1
     }
     trans.ts=trans.ts/rowSums(trans.ts)
   }
- 
+
   ## Construct surrogate time series
   surr.ts=numeric(length=NROW(ts))*NA
   v0.ind.ts=sample(1:NROW(ts), size=1)

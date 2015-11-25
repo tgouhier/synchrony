@@ -1,5 +1,6 @@
+#' @export
 correlated.matrix <- function (rho = 0, sigma = 1, mu = 0, ntimes = 200, nspecies = 10) {
-  
+
   if (length(rho) > 1) {
     corr.mat=matrix(NA, nrow=nspecies, ncol=nspecies)
     corr.mat[upper.tri(corr.mat)]=rho
@@ -21,7 +22,7 @@ correlated.matrix <- function (rho = 0, sigma = 1, mu = 0, ntimes = 200, nspecie
     community=NA
     warning("Unable to generate desired correlation matrix (leading minor is not positive definite)")
   }
-  
+
   results=list(rho=rho, sigma=sigma, mu=mu, community=community)
   class(results)="cormat"
   return (results)

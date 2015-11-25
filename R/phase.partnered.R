@@ -1,6 +1,7 @@
+#' @export
 phase.partnered <-
 function (n=2000, rho=1, gamma=1, sigma=0.10, mu=0) {
-  
+
   ts.part=matrix(nrow=n, ncol=2, NA)
   minVal=0
   maxVal=2*pi

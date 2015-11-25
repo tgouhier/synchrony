@@ -1,13 +1,14 @@
+#' @export
 peaks <- function  (t1, t2, nrands = 0, type = 1, quiet = FALSE) {
-  
+
   if (NCOL(t1)==1 | NCOL(t2)==1) {
     t1=cbind(1:NROW(t1), t1)
-    t2=cbind(1:NROW(t2), t2)    
+    t2=cbind(1:NROW(t2), t2)
   }
   observed.peaks=peaks.aux (t1, t2)
-  
+
   if (nrands == 0) {
-    results = observed.peaks    
+    results = observed.peaks
   }
   else {
     randomized.peaks=numeric(length=nrands+1)
@@ -30,9 +31,9 @@ peaks <- function  (t1, t2, nrands = 0, type = 1, quiet = FALSE) {
     }
     randomized.peaks[n+1]=observed.peaks$obs
     pval=sum(randomized.peaks >= observed.peaks$obs)/(nrands+1)
-    results=list(pval=pval, rands=randomized.peaks, obs=observed.peaks$obs, 
+    results=list(pval=pval, rands=randomized.peaks, obs=observed.peaks$obs,
                  locations=observed.peaks$locations, index=observed.peaks$index)
-  }  
+  }
   class(results)="synchrony"
   return (results)
 }
@@ -42,11 +43,11 @@ peaks.aux <- function (t1, t2) {
   f2=find.minmax(t2)
   common.mins=f1$mins$index %in% f2$mins$index
   common.maxs=f1$maxs$index %in% f2$maxs$index
-  peaks=(sum(common.mins)+sum(common.maxs))/sum(max(NROW(f1$mins), 
+  peaks=(sum(common.mins)+sum(common.maxs))/sum(max(NROW(f1$mins),
                                                     NROW(f2$mins)) +
-                                                  max(NROW(f1$maxs), 
+                                                  max(NROW(f1$maxs),
                                                       NROW(f2$maxs)))
-  index=sort(c(f1$mins$index[common.mins], 
+  index=sort(c(f1$mins$index[common.mins],
                f1$maxs$index[common.maxs]))
   return (list(obs=peaks, index=index))
 }
