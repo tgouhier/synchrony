@@ -1,6 +1,11 @@
 # synchrony
 R package for computing spatial, temporal, and spatiotemporal statistics
 
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/synchrony)](http://cran.r-project.org/package=synchrony)
+[![Build Status](https://travis-ci.org/vsimko/synchrony.svg)](https://travis-ci.org/vsimko/synchrony)
+[![codecov.io](https://codecov.io/github/vsimko/synchrony/coverage.svg?branch=master)](https://codecov.io/github/vsimko/synchrony?branch=master)
+![CRAN Downloads](http://cranlogs-dev.r-pkg.org/badges/synchrony)
+
 The synchrony package provides tools for computing spatial, temporal,
 and spatiotemporal statistics in [R]. All of the functions are documented
 in the [manual], so I will highlight just a few here. One of the primary
