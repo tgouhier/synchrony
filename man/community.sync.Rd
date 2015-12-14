@@ -6,7 +6,7 @@ Compute community-wide synchrony and its significance via Monte Carlo randomizat
 \description{
 Compute community-wide synchrony and its the significance via Monte Carlo randomizations. 
 If all species fluctuate in perfect unison, the community-wide synchrony will be 1. 
-If species undergo uncorrelated fluctuations, the community-wide synchrony will be 0.
+If species undergo uncorrelated fluctuations, the community-wide synchrony will be 1/S.
 The Monte Carlo randomizations are performed by shuffling the columns of the community
 matrix independently. This function also returns the mean correlation between the columns
 of the matrix.
