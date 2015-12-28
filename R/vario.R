@@ -4,13 +4,17 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
                           "pearson", "spearman", "kendall", "moran", "geary"),
                    alternative=c("one.tailed", "two.tailed"),
                    mult.test.corr=c("none", "holm", "hochberg", "bonferroni"),
-                  quiet = FALSE) {
+                   regional=c("all", "extent"),
+                   quiet = FALSE) {
   
   tails=c("one.tailed", "two.tailed")
   alternative=match.arg(tolower(alternative), tails)
   
   types=c("semivar", "cov", "pearson", "spearman", "kendall", "moran", "geary")
   type=match.arg(tolower(type), types)
+  
+  regional.selection=c("all", "extent")
+  regional=match.arg(tolower(regional), regional.selection)
   
   mults=c("none", "holm", "hochberg", "bonferroni")
   mult.test.corr=match.arg(tolower(mult.test.corr), mults)
@@ -29,22 +33,23 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
   if (!is.null(size.bins))
     n.bins=NULL
   
-  results=vario.aux (n.bins=n.bins, size.bins=size.bins, extent=extent, data=data, data2=data2, 
-                     is.latlon=is.latlon, is.centered=is.centered, 
-                     is.multivar=is.multivar, type=type)
+  results=vario.aux(n.bins=n.bins, size.bins=size.bins, extent=extent, 
+                    data=data, data2=data2, is.latlon=is.latlon, 
+                    is.centered=is.centered, is.multivar=is.multivar, 
+                    type=type, regional=regional)
   
-  if (nrands > 0) {
+  if(nrands > 0) {
     rands=matrix(NA, nrow=nrands+1, ncol=length(results$bins))
-    if (!quiet)
+    if(!quiet)
       prog.bar=txtProgressBar(min = 0, max = nrands, style = 3)
     
-    if (is.null(data2))
+    if(is.null(data2))
       data2=data
-    for (i in 1:nrands) {    
-      s=sample(results$grpdata)
+    for(i in 1:nrands) {    
+      s=sample(results$grpdata[!is.na(results$grpdata)])
       
       if (is.multivar) {
-        vals=results$vals
+        vals=results$vals[!is.na(results$grpdata)]
         # Faster, implicit randomization (shuffle locations of individual correlations)
         rands[i,]=tapply(vals, s, FUN=mean, na.rm=TRUE)
         # Slower, explicit randomization (shuffle both datasets and recompute correlations):      
@@ -91,7 +96,7 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
                 sum(x >= x[nrands+1])/(nrands+1), 
                 sum(x <= x[nrands+1])/(nrands+1))})
     }
-
+    
     if (mult.test.corr != "none") {
       pvals=p.adjust(pvals, method=mult.test.corr[1])
     }
@@ -112,10 +117,11 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
   return(results)
 }
 
-vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL, 
-                       is.latlon=TRUE, is.centered=FALSE, is.multivar=FALSE,
-                       type=c("semivar", "cov", "pearson", "spearman", "kendall", 
-                              "moran", "geary")) {
+vario.aux <- function(n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL, 
+                      is.latlon=TRUE, is.centered=FALSE, is.multivar=FALSE,
+                      type=c("semivar", "cov", "pearson", "spearman", 
+                             "kendall", "moran", "geary"),
+                      regional="all") {
   
   n.cols=NCOL(data)
   all.dists=coord2dist(data[, 1:2], is.latlon)
@@ -130,6 +136,7 @@ vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
   
   types=c("semivar", "cov", "pearson", "spearman", "kendall", "moran", "geary")
   type=match.arg(tolower(type), types)
+
   if (is.null(size.bins)) {
     bins=seq(0, max.extent, length.out=n.bins+1)
     grpdata <-cut(all.dists, breaks=bins, labels=1:(length(bins)-1), right=TRUE)
@@ -138,6 +145,7 @@ vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
     bins=seq(0, max.extent+size.bins, by=size.bins)
     grpdata <-cut(all.dists, breaks=bins, labels=1:(length(bins)-1), right=FALSE)
   }
+  
   if (is.multivar) {
     glob.mean=NA
     glob.sd=NA
@@ -152,19 +160,24 @@ vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
                                   use = "pairwise.complete.obs"))
       }
       vals=vals[lower.tri(vals)]
-    }
-    else {
-      if (type=="cov")
+    } else {
+      if (type=="cov") {
         vals=suppressWarnings(cov(x=t(data[, 3:n.cols]), y=t(data2[, 3:n.cols]), 
                                   use = "pairwise.complete.obs"))
-      else
+      } else {
         vals=suppressWarnings(cor(x=t(data[, 3:n.cols]), y=t(data2[, 3:n.cols]), 
                                   method=type, use = "pairwise.complete.obs"))
+      }
       # vals=vals[row(vals)!=col(vals)]
       vals=vals[lower.tri(vals)]
     }
     
-    regional.mean=mean(vals, na.rm=TRUE)
+    if (regional=="all") {
+      regional.mean=mean(vals, na.rm=TRUE)
+    } else {
+      regional.mean=mean(vals[!is.na(grpdata)], na.rm=TRUE)
+    }
+
     if (is.centered) {
       vals=vals-regional.mean
     }
@@ -195,7 +208,7 @@ vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
       glob.N=NROW(data[,3])
       denom.N=1  
     }
-    for (i in 1:(length(bins)-1)) {
+    for(i in 1:(length(bins)-1)) {
       if (include.lag0) {
         tmp=rbind(all.combs[grpdata==i, 1:2], all.combs[grpdata==i, c(3, 4)])
       }
@@ -208,7 +221,7 @@ vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
         y=data2[tmp[,2], 3:n.cols]    
         npoints[i]=NROW(x)/denom.N
         vario[i]=vario.func(x, y, glob.mean, glob.sd, glob.N, is.multivar, type=type)        
-        bin.dist[i]=mean(all.dists[grpdata==i], na.rm=T)
+        bin.dist[i]=mean(all.dists[grpdata==i], na.rm=TRUE)
       }
       else {
         vario[i]=NA
@@ -216,7 +229,7 @@ vario.aux <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
         bin.dist[i]=NA
       }
     }
-    regional.mean=mean(vario, na.rm=TRUE)
+    regional.mean = mean(vario, na.rm = TRUE)
     if (is.centered)
       vario=vario-regional.mean
   }

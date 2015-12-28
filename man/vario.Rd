@@ -12,6 +12,7 @@ Compute the empirical variogram and determine its significance via Monte Carlo r
                   "spearman", "kendall", "moran", "geary"),
                   alternative = c("one.tailed", "two.tailed"),
                   mult.test.corr = c("none", "holm", "hochberg", "bonferroni"),
+                  regional = c("all", "extent"),
                   quiet = FALSE)
 }
 
@@ -59,6 +60,12 @@ regional mean. Default is \code{one.tailed}}
 \item{mult.test.corr}{Correct for multiple tests? Default is \code{"none"}. Other options include
 \code{holm}, \code{hochberg} and \code{bonferroni}
 }
+
+\item{regional}{
+Should the regional average be computed for the entire dataset (\code{all})
+or just the extent specified (\code{extent}). Default is the entire dataset (\code{all})
+}
+
 \item{quiet}{
 Suppress progress bar when set to \code{TRUE}. Default is \code{FALSE}
 }
