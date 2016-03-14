@@ -2,6 +2,16 @@
 \title{News for Package 'synchrony'}
 \encoding{UTF-8}
 
+\section{Changes in synchrony version 0.2.5 (2015-12-28)}{
+  \subsection{fixed}{
+    \itemize{
+    \item \code{vario} now accounts for different spatial extents when determining
+    whether the variogram values differ significantly from the regional value 
+    (thanks to Lazarus Pomara for pointing out the problem)
+    }
+  }
+}
+
 \section{Changes in synchrony version 0.2.4 (2015-08-22)}{
   \subsection{fixed}{
     \itemize{
