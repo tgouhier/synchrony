@@ -1,3 +1,4 @@
+#' @export
 vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL, 
                    is.latlon=TRUE, is.centered=FALSE, nrands=0,
                    type=c("semivar", "cov", 

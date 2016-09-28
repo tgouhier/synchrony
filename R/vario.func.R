@@ -1,9 +1,10 @@
+#' @export
 vario.func <- function (x, y, glob.mean, glob.sd, glob.N, is.multivar=FALSE,
                         type=c("semivar", "cov", "pearson", "spearman", "kendall", "moran", "geary")) {
   types=c("semivar", "cov", "pearson", "spearman", "kendall", "moran", "geary")
   type=match.arg(tolower(type), types)
-  
-  if (!is.multivar) {    
+
+  if (!is.multivar) {
     if (type=="semivar")
       results=(1/(2*length(x)))*sum((x-y)^2)
     else if (type=="cov")
