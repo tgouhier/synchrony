@@ -8,8 +8,8 @@ Compute the phase synchrony between two quasi-periodic time series by quantifyin
 their phase difference at each time step
 }
 \usage{
-phase.sync (t1, t2,  nrands = 0, mod = 1, nbreaks = 10, mins = FALSE,
-            quiet = FALSE)
+phase.sync (t1, t2,  nrands = 0, mod = 1, method = c("markov", "fft"), 
+            nbreaks = 10, mins = FALSE, quiet = FALSE)
 }
 \arguments{
  \item{t1}{
@@ -29,13 +29,23 @@ matrix with column 1 corresponding to a time index ranging from 1 to the length 
   \item{nrands}{
 number of randomizations to perform (default is 0)  
 }
-  \item{mod}{flag to indicate whether to compute phase difference modulus \eqn{2\pi} 
+
+\item{mod}{flag to indicate whether to compute phase difference modulus \eqn{2\pi} 
   between 0 and \eqn{2\pi} (\code{mod=1}) or phase difference modulus 
   \eqn{2\pi} between \eqn{-\pi} and \eqn{\pi} (\code{mod=2}). Default is \code{mod=1}.
-  } 
-  \item{nbreaks}{number of bins to use to group the values in the time series.
+} 
+
+\item{method}{method to generate surrogate time series for Monte Carlo simulations.
+This can be set to \code{markov} to use the Markov process described in 
+Cazelles and Stone (2004) or \code{fft} to use the FFT approach described in
+Theiler et al. (1992). Default is \code{method=markov}.
+} 
+
+\item{nbreaks}{number of bins to use to group the values in the time series.
   Default is \code{10}.
-  }
+}
+  
+  
   \item{quiet}{
 Suppress progress bar when set to \code{TRUE}. Default is \code{FALSE}
 }
@@ -70,7 +80,11 @@ modulus \eqn{2\pi} between \eqn{-\pi} and \eqn{\pi}}
 }
 \references{
 Cazelles, B., and L. Stone. 2003. Detection of imperfect population synchrony 
-in an uncertain world. \emph{Journal of Animal Ecology} 72:953-968.
+in an uncertain world. \emph{Journal of Animal Ecology} 72:953--968.
+
+Theiler, J., S. Eubank, A. Longtin, B. Galdrikian, and J. Doyne Farmer. 1992. 
+Testing for nonlinearity in time series: the method of surrogate data. 
+Physica D: Nonlinear Phenomena 58:77--94.
 }
 \author{
 Tarik C. Gouhier (tarik.gouhier@gmail.com)

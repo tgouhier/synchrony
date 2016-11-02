@@ -2,6 +2,15 @@
 \title{News for Package 'synchrony'}
 \encoding{UTF-8}
 
+\section{Changes in synchrony version 0.3.5 (2016-11-02)}{
+  \subsection{added}{
+    \itemize{
+    \item Added a phase locking test based on the randomization of the phases
+    of each signal in function \code{phase.sync} 
+    }
+  }
+}
+
 \section{Changes in synchrony version 0.2.5 (2015-12-28)}{
   \subsection{fixed}{
     \itemize{

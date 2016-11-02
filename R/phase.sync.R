@@ -1,5 +1,8 @@
-phase.sync <- function (t1, t2, nrands = 0, mod = 1, nbreaks = 10, 
-                        mins = FALSE, quiet = FALSE) {
+phase.sync <- function (t1, t2, nrands = 0, mod = 1, method = c("markov", "fft"),
+                        nbreaks = 10, mins = FALSE, quiet = FALSE) {
+  
+  methods <- c("markov", "fft")
+  method <- match.arg(method, methods)
   
   if (NCOL(t1)==1 | NCOL(t2)==1) {
     t1=cbind(1:NROW(t1), t1)
@@ -27,27 +30,15 @@ phase.sync <- function (t1, t2, nrands = 0, mod = 1, nbreaks = 10,
     Smax.obs=log(nbins.obs)
     Q.obs=(Smax.obs-S.obs)/Smax.obs
     
-    # Determine transition probabilities
-    distr.t1 <- cut(t1[,2], quantile(t1[,2], seq(0, 1, len = (nbreaks+1))), 
-                    include.lowest = TRUE, labels=FALSE)
-    distr.t2 <- cut(t2[,2], quantile(t2[,2], seq(0, 1, len = (nbreaks+1))), 
-                    include.lowest = TRUE, labels=FALSE)  
-    trans.t1=matrix(nrow=nbreaks, ncol=nbreaks, 0)
-    trans.t2=matrix(nrow=nbreaks, ncol=nbreaks, 0)
-    
-    for (i in 1:(NROW(t1)-1)) {
-      trans.t1[distr.t1[i], distr.t1[i+1]]=trans.t1[distr.t1[i], distr.t1[i+1]]+1      
-      trans.t2[distr.t2[i], distr.t2[i+1]]=trans.t2[distr.t2[i], distr.t2[i+1]]+1      
-    }
-    trans.t1=trans.t1/rowSums(trans.t1)  
-    trans.t2=trans.t2/rowSums(trans.t2)  
     if (!quiet)
       prog.bar=txtProgressBar(min = 0, max = nrands, style = 3)
     for (r in 1:nrands) {
-      # Surrogate randomization (Cazelles and Stone 2003)
-      surr.t1=surrogate.ts(ts=t1, distr.ts=distr.t1, nbreaks=nbreaks)$surr.ts
-      surr.t2=surrogate.ts(ts=t2, distr.ts=distr.t2, nbreaks=nbreaks)$surr.ts
-      p.rand=phase.sync(surr.t1, surr.t2)
+      if (method == "markov")
+        surr <- surrogate.markov(t1, t2, nbreaks = nbreaks)
+      else
+        surr <- surrogate.fft(t1, t2)
+      
+      p.rand=phase.sync(surr$t1, surr$t2)
       rand.h=hist(p.rand$deltaphase[, column], breaks=breaks, plot=FALSE)
       rand.p=rand.h$counts/sum(rand.h$counts, na.rm=TRUE)
       rand.nbins=length(rand.h$counts)  
@@ -67,6 +58,51 @@ phase.sync <- function (t1, t2, nrands = 0, mod = 1, nbreaks = 10,
   }
   class(results)="phase"
   return (results)
+}
+
+surrogate.fft <- function (t1, t2) {
+  t1.fft <- fft(t1[, 2])
+  t2.fft <- fft(t2[, 2])
+  # Extract phases
+  phase1 <- atan2(Im(t1.fft), Re(t1.fft))
+  phase2 <- atan2(Im(t1.fft), Re(t1.fft))
+  # Extract magnitudes
+  mag1 <- abs(t1.fft)
+  mag2 <- abs(t2.fft)
+  # Randomize phases
+  phase.rand1 <- sample(phase1)
+  phase.rand2 <- sample(phase2)
+  # Build randomized spectrum
+  t1.rand <- mag1 * exp(complex(real = 0, imaginary = 1) * phase.rand1)
+  t2.rand <- mag2 * exp(complex(real = 0, imaginary = 1) * phase.rand2)
+  # Convert to randomized time series
+  surr.t1 <- Re(fft(t1.rand, inverse = TRUE) / length(t1.rand))
+  surr.t2 <- Re(fft(t2.rand, inverse = TRUE) / length(t2.rand))
+  
+  return(list(t1 = cbind(t1[, 1], surr.t1), t2 = cbind(t2[, 1], surr.t2)))
+}
+
+surrogate.markov <- function (t1, t2, nbreaks = nbreaks) {
+  # Determine transition probabilities
+  distr.t1 <- cut(t1[,2], quantile(t1[,2], seq(0, 1, len = (nbreaks+1))), 
+                  include.lowest = TRUE, labels=FALSE)
+  distr.t2 <- cut(t2[,2], quantile(t2[,2], seq(0, 1, len = (nbreaks+1))), 
+                  include.lowest = TRUE, labels=FALSE)  
+  trans.t1=matrix(nrow=nbreaks, ncol=nbreaks, 0)
+  trans.t2=matrix(nrow=nbreaks, ncol=nbreaks, 0)
+  
+  for (i in 1:(NROW(t1)-1)) {
+    trans.t1[distr.t1[i], distr.t1[i+1]]=trans.t1[distr.t1[i], distr.t1[i+1]]+1      
+    trans.t2[distr.t2[i], distr.t2[i+1]]=trans.t2[distr.t2[i], distr.t2[i+1]]+1      
+  }
+  trans.t1=trans.t1/rowSums(trans.t1)  
+  trans.t2=trans.t2/rowSums(trans.t2)  
+  
+  # Surrogate randomization (Cazelles and Stone 2003)
+  surr.t1=surrogate.ts(ts=t1, distr.ts=distr.t1, nbreaks=nbreaks)$surr.ts
+  surr.t2=surrogate.ts(ts=t2, distr.ts=distr.t2, nbreaks=nbreaks)$surr.ts
+  
+  return(list(t1 = surr.t1, t2 = surr.t2))
 }
 
 phase.sync.aux <- function (t1, t2, mins = FALSE) {
