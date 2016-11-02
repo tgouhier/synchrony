@@ -65,7 +65,7 @@ surrogate.fft <- function (t1, t2) {
   t2.fft <- fft(t2[, 2])
   # Extract phases
   phase1 <- atan2(Im(t1.fft), Re(t1.fft))
-  phase2 <- atan2(Im(t1.fft), Re(t1.fft))
+  phase2 <- atan2(Im(t2.fft), Re(t2.fft))
   # Extract magnitudes
   mag1 <- abs(t1.fft)
   mag2 <- abs(t2.fft)
