@@ -107,6 +107,9 @@ vario <- function (n.bins=20, size.bins=NULL, extent=0.5, data, data2=NULL,
     results$rands=rands
     results$alternative=alternative
     results$mult.test.corr=mult.test.corr[1]
+    
+    if (!quiet)
+      close(prog.bar)
   }
   
   ## Remove extraneous elements

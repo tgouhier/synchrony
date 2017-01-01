@@ -29,7 +29,10 @@ kendall.w <- function (data, nrands = 0, type=1, quiet = FALSE) {
                  w.corrected=kendall.observed$w.corrected, 
                  pval=kendall.observed$pval, spearman.corr=kendall.observed$spearman.corr,
                  pval.rand=p.val.rand, rands=rands)
+    if (!quiet)
+      close(prog.bar)
   }
+  
   class(results)="synchrony"
   return (results)
 }

@@ -2,6 +2,14 @@
 \title{News for Package 'synchrony'}
 \encoding{UTF-8}
 
+\section{Changes in synchrony version 0.3.6 (2016-12-31)}{
+  \subsection{fixed}{
+    \itemize{
+    \item Made sure to close progress bar connections 
+    }
+  }
+}
+
 \section{Changes in synchrony version 0.3.5 (2016-11-02)}{
   \subsection{added}{
     \itemize{

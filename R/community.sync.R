@@ -27,12 +27,16 @@ community.sync <- function (data, nrands = 0, method=c("pearson", "kendall", "sp
         setTxtProgressBar(prog.bar, i)
     }
     results$rands[nrands+1]=results$obs
-    if (alternative=="greater")
+    if (alternative=="greater") {
       results$pval=sum(results$rands >= results$obs)/(nrands+1)
-    else
+    } else {
       results$pval=sum(results$rands <= results$obs)/(nrands+1)
+    }
     results$alternative=alternative
+    if (!quiet)
+      close(prog.bar)
   }
+  
   class(results)="synchrony"
   return (results)
 }

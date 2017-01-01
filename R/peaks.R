@@ -32,7 +32,10 @@ peaks <- function  (t1, t2, nrands = 0, type = 1, quiet = FALSE) {
     pval=sum(randomized.peaks >= observed.peaks$obs)/(nrands+1)
     results=list(pval=pval, rands=randomized.peaks, obs=observed.peaks$obs, 
                  locations=observed.peaks$locations, index=observed.peaks$index)
+    if (!quiet)
+      close(prog.bar)
   }  
+  
   class(results)="synchrony"
   return (results)
 }

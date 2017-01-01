@@ -55,7 +55,10 @@ phase.sync <- function (t1, t2, nrands = 0, mod = 1, method = c("markov", "fft")
     icdf=data.frame(Q=o, icdf=sapply(o, FUN=function (x) {sum(rands >= x)/(nrands+1)}))
     results=list(Q.obs=Q.obs, pval=pValue, rands=rands, phases1=p$phases1,
                  phases2=p$phases2, deltaphase=p$deltaphase, icdf=icdf)
+    if (!quiet)
+      close(prog.bar)
   }
+  
   class(results)="phase"
   return (results)
 }
