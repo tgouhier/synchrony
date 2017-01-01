@@ -23,11 +23,10 @@ About synchrony
 The synchrony package contains methods for computing spatial, temporal, and spatiotemporal statistics
 such as:
 
- - empirical univariate
- - bivariate and multivariate variograms
+ - empirical univariate, bivariate and multivariate variograms
  - fitting variogram models
  - phase locking and synchrony analysis
- -  generating autocorrelated and cross-correlated matrices
+ - generating autocorrelated and cross-correlated matrices
 
 The package is fully described in <a href="http://www.northeastern.edu/synchrony/pdfs/gouhier_guichard_14.pdf">Gouhier and Guichard (2014)</a>.
 
