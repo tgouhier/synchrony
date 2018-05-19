@@ -2,6 +2,14 @@
 \title{News for Package 'synchrony'}
 \encoding{UTF-8}
 
+\section{Changes in synchrony version 0.3.7 (2018-05-19)}{
+  \subsection{fixed}{
+    \itemize{
+    \item Added imports statement to NAMESPACE 
+    }
+  }
+}
+
 \section{Changes in synchrony version 0.3.6 (2016-12-31)}{
   \subsection{fixed}{
     \itemize{
