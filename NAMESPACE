@@ -1,5 +1,14 @@
+# Imports
+importFrom("graphics", "abline", "box", "hist", "legend", "lines",
+           "plot", "points", "polygon")
+importFrom("stats", "approx", "coef", "complete.cases", "cor", "cov",
+           "dist", "fft", "lm", "na.omit", "nls", "optim", "p.adjust",
+           "pchisq", "predict", "quantile", "rnorm", "runif", "sd",
+           "var", "weighted.mean")
+importFrom("utils", "combn", "setTxtProgressBar", "txtProgressBar")
+  
 # Export functions
-export (coord2dist,
+export(coord2dist,
 	correlated.matrix,
 	find.minmax,
 	kendall.w,
