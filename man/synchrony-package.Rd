@@ -6,10 +6,12 @@
 Methods for Computing Spatial, Temporal, and Spatiotemporal Statistics
 }
 \description{
-Methods for computing spatial, temporal, and spatiotemporal statistics including:
-empirical univariate, bivariate and multivariate variograms; 
-fitting variogram models; phase locking and synchrony analysis; 
-generating autocorrelated and cross-correlated matrices.
+ Methods for computing spatial, temporal, and spatiotemporal
+    statistics as described in Gouhier and Guichard (2014) 
+    [https://doi.org/10.1111/2041-210X.12188]. These methods include 
+    empirical univariate, bivariate and multivariate
+    variograms; fitting variogram models; phase locking and synchrony analysis;
+    generating autocorrelated and cross-correlated matrices.
 }
 \details{
 \tabular{ll}{
@@ -18,7 +20,7 @@ Type: \tab Package\cr
 Version: \tab 0.3.8\cr
 Date: \tab 2019-12-05\cr
 License: \tab GPL (>=2)\cr
-URL: \tab http://synchrony.r-forge.r-project.org\cr
+URL: \tab https://github.com/tgouhier/synchrony\cr
 LazyLoad: \tab yes\cr
 }
 }
