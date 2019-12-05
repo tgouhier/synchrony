@@ -6,7 +6,9 @@ Date: 2019-12-05
 Author: Tarik C. Gouhier
 Maintainer: Tarik C. Gouhier <tarik.gouhier@gmail.com>
 Description: Methods for computing spatial, temporal, and spatiotemporal
-    statistics including: empirical univariate, bivariate and multivariate
+    statistics as described in Gouhier and Guichard (2014) 
+    [https://doi.org/10.1111/2041-210X.12188]. These methods include 
+    empirical univariate, bivariate and multivariate
     variograms; fitting variogram models; phase locking and synchrony analysis;
     generating autocorrelated and cross-correlated matrices.
 License: GPL (>=2)
