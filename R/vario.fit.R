@@ -32,7 +32,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
                       start=list(c0=start.vals$c0,
                                  b=coef(vario.lin)[2]), 
                       data=data), silent=TRUE)
-    if (class(vario.mod)=="try-error") {
+    if (class(vario.mod)[1]=="try-error") {
       success=FALSE
       vario.mod=optim(c(start.vals$c0, 
                         coef(vario.lin)[2]),
@@ -54,7 +54,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
                                  a=start.vals$a,
                                  b=coef(vario.lin)[2]), 
                       data=data), silent=TRUE)
-    if (class(vario.mod)=="try-error") {
+    if (class(vario.mod)[1]=="try-error") {
       success=FALSE
       vario.mod=optim(c(start.vals$c0, 
                         start.vals$c1,
@@ -78,7 +78,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
                                  a=start.vals$a), 
                       data=data), silent=TRUE)
   
-    if (class(vario.mod)=="try-error") {
+    if (class(vario.mod)[1]=="try-error") {
       success=FALSE
       vario.mod=optim(c(start.vals$c0, 
                         start.vals$c1,
@@ -100,7 +100,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
                                  c1=start.vals$c1,
                                  a=start.vals$a),
                       data=data), silent=TRUE)
-    if (class(vario.mod)=="try-error") {
+    if (class(vario.mod)[1]=="try-error") {
       success=FALSE
       vario.mod=optim(c(start.vals$c0, 
                         start.vals$c1,
@@ -123,7 +123,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
                                  a=start.vals$a), 
                       data=data), silent=TRUE)
 
-    if (class(vario.mod)=="try-error") {
+    if (class(vario.mod)[1]=="try-error") {
       success=FALSE
       vario.mod=optim(c(start.vals$c0, 
                         start.vals$c1,
@@ -143,7 +143,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
                                  b=start.vals$b,
                                  c=start.vals$c), 
                       data=data), silent=TRUE)
-    if (class(vario.mod)=="try-error") {
+    if (class(vario.mod)[1]=="try-error") {
       success=FALSE
       vario.mod=optim(c(start.vals$a, 
                         start.vals$b,
@@ -165,7 +165,7 @@ vario.fit <- function (vario, bins, weights=rep(1, length(vario)),
                                  c1=start.vals$c1,
                                  a=start.vals$a), 
                       data=data), silent=TRUE)
-    if (class(vario.mod)=="try-error") {
+    if (class(vario.mod)[1]=="try-error") {
       success=FALSE
       vario.mod=optim(c(start.vals$c0, 
                         start.vals$c1,

@@ -1,8 +1,8 @@
 Package: synchrony
 Type: Package
 Title: Methods for Computing Spatial, Temporal, and Spatiotemporal Statistics
-Version: 0.3.7
-Date: 2018-05-19
+Version: 0.3.8
+Date: 2019-12-05
 Author: Tarik C. Gouhier
 Maintainer: Tarik C. Gouhier <tarik.gouhier@gmail.com>
 Description: Methods for computing spatial, temporal, and spatiotemporal

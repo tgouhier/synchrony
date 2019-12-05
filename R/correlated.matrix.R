@@ -11,7 +11,7 @@ correlated.matrix <- function (rho = 0, sigma = 1, mu = 0, ntimes = 200, nspecie
   diag(corr.mat)=1
   # Cholesky decomposition
   L=try(chol(corr.mat), silent=TRUE)
-  if (class(L)!="try-error") {
+  if (class(L)[1]!="try-error") {
     community=matrix(rnorm(ntimes*nspecies, sd=1, mean=0), nrow=ntimes, ncol=nspecies) %*% L
     community=scale(community, center=TRUE, scale=TRUE)*sigma+mu
     attr(community, "scaled:center")=NULL

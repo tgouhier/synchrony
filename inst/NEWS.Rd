@@ -2,6 +2,14 @@
 \title{News for Package 'synchrony'}
 \encoding{UTF-8}
 
+\section{Changes in synchrony version 0.3.8 (2019-12-05)}{
+  \subsection{fixed}{
+    \itemize{
+    \item Fixed class problems with the development and upcoming releases of R
+    }
+  }
+}
+
 \section{Changes in synchrony version 0.3.7 (2018-05-19)}{
   \subsection{fixed}{
     \itemize{
